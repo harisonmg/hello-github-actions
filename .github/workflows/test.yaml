@@ -12,9 +12,9 @@ jobs:
         env:
           GAC: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
         run: |
-          mkdir -p $(dirname "$GAC")
-          echo ${{ secrets.GCP_CREDENTIALS }} >> "$GAC"
-          echo "GOOGLE_APPLICATION_CREDENTIALS=$GAC" >> .Renviron
+          mkdir -p $(dirname "$GAC") && \
+            echo ${{ secrets.GCP_CREDENTIALS }} >> "$GAC" && \
+            echo "GOOGLE_APPLICATION_CREDENTIALS=$GAC" >> .Renviron
           ls -la
           cat .Renviron
           cat "$GAC"
