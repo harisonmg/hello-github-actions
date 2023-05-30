@@ -8,8 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GAC_FILE: credentials.json
-      GAC_DIR: .secrets
+      GAC_DIR: .secrets/gcp
     steps:
+      - name: Create Google credentials directory
+        run: |
+          mkdir -p "${{ env.GAC_DIR }}"
+
       - name: Create Google credentials file
         uses: jsdaniell/create-json@v1.2.1
         with:
