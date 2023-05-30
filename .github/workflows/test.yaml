@@ -11,7 +11,7 @@ jobs:
       GAC_DIR: .secrets
     steps:
       - name: Create Google credentials file
-        uses: jsdaniell/create-json@1.2.1
+        uses: jsdaniell/create-json@v1.2.1
         with:
           name: ${{ env.GAC_FILE }}
           json: ${{ secrets.GCP_CREDENTIALS }}
