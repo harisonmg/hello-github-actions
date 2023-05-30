@@ -1,0 +1,18 @@
+name: Test
+on: push
+
+jobs:
+  test:
+    name: Create directory
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Add required environment variables
+        env:
+          GAC: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+        run: |
+          mkdir -p $(dirname "$GAC")
+          echo ${{ secrets.GCP_CREDENTIALS }} >> "$GAC"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$GAC" >> .Renviron
+          ls -la
