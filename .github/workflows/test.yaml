@@ -9,7 +9,6 @@ jobs:
     env:
       GAC_FILE: credentials.json
       GAC_DIR: .secrets/gcp
-      GOOGLE_APPLICATION_CREDENTIALS: "$GAC_DIR/$GAC_FILE"
     steps:
       - name: Create GCP credentials directory
         run: |
@@ -23,6 +22,7 @@ jobs:
           json: ${{ secrets.GCP_CREDENTIALS }}
 
       - name: Add environment variables
-        run: |
+        run: |        
+          export "GOOGLE_APPLICATION_CREDENTIALS=${{ env.GAC_DIR }}/${{ env.GAC_FILE }}"
           echo "GOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_APPLICATION_CREDENTIALS" >> .Renviron
           cat $GOOGLE_APPLICATION_CREDENTIALS
