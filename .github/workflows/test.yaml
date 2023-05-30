@@ -9,22 +9,20 @@ jobs:
     env:
       GAC_FILE: credentials.json
       GAC_DIR: .secrets/gcp
+      GOOGLE_APPLICATION_CREDENTIALS: "$GAC_DIR/$GAC_FILE"
     steps:
-      - name: Create Google credentials directory
+      - name: Create GCP credentials directory
         run: |
           mkdir -p "${{ env.GAC_DIR }}"
 
-      - name: Create Google credentials file
+      - name: Create GCP credentials file
         uses: jsdaniell/create-json@v1.2.1
         with:
+          dir: ${{ env.GAC_DIR }}
           name: ${{ env.GAC_FILE }}
           json: ${{ secrets.GCP_CREDENTIALS }}
-          dir: ${{ env.GAC_DIR }}
 
-      - name: Add required environment variables
-        env:
-          GAC: 
+      - name: Add environment variables
         run: |
-          echo "GOOGLE_APPLICATION_CREDENTIALS=$GAC_DIR/$GAC_FILE" >> .Renviron
-          ls -la
-          cat "$GAC_DIR/$GAC_FILE"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_APPLICATION_CREDENTIALS" >> .Renviron
+          cat $GOOGLE_APPLICATION_CREDENTIALS
