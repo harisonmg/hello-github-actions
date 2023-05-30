@@ -16,3 +16,5 @@ jobs:
           echo ${{ secrets.GCP_CREDENTIALS }} >> "$GAC"
           echo "GOOGLE_APPLICATION_CREDENTIALS=$GAC" >> .Renviron
           ls -la
+          cat .Renviron
+          cat "$GAC"
