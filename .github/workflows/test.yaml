@@ -1,19 +1,26 @@
 name: Test
 on:
   push:
-  pull_request:
 
 jobs:
   test:
     name: Create directory
     runs-on: ubuntu-latest
+    env:
+      GAC_FILE: credentials.json
+      GAC_DIR: .secrets
     steps:
+      - name: Create Google credentials file
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          name: ${{ env.GAC_FILE }}
+          json: ${{ secrets.GCP_CREDENTIALS }}
+          dir: ${{ env.GAC_DIR }}
+
       - name: Add required environment variables
         env:
-          GAC: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          GAC: 
         run: |
-          mkdir -p $(dirname "$GAC") && \
-            echo ${{ secrets.GCP_CREDENTIALS }} >> "$GAC" && \
-            echo "GOOGLE_APPLICATION_CREDENTIALS=$GAC" >> .Renviron
-          cat "$GAC"
-        shell: bash
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$GAC_DIR/$GAC_FILE" >> .Renviron
+          ls -la
+          cat "$GAC_DIR/$GAC_FILE"
